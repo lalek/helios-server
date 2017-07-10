@@ -166,6 +166,8 @@ Once you do this, the tally will visible to you, the administrator, only.
 </table>
 {% endfor %}
 
+<a class="button" href="{% url "helios.views.result_csv" election_uuid=election.uuid %}">Download CSV</a>
+
 {% else %}
 
 {% if election.voting_has_stopped %}

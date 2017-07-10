@@ -1266,7 +1266,31 @@ def voters_eligibility(request, election):
 
   election.save()
   return HttpResponseRedirect(settings.SECURE_URL_HOST + reverse(voters_list_pretty, args=[election.uuid]))
-  
+
+@election_admin()
+def result_csv(request, election):
+    if not election.result:
+      return None
+
+    raw_result = election.result
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="results.csv"'
+    writer = csv.writer(response)
+
+    # loop through questions
+    for i in range(len(election.questions)):
+      q = election.questions[i]
+      writer.writerow([q['short_name']])
+      # go through answers
+      for j in range(len(q['answers'])):
+        a = q['answers'][j]
+        count = raw_result[i][j]
+        writer.writerow([a, count])
+
+      writer.writerow([])
+
+    return response
+
 @election_admin()
 def voters_upload(request, election):
   """

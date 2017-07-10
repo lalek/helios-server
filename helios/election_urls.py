@@ -43,6 +43,7 @@ urlpatterns = patterns('',
     
     # election voting-process actions
     (r'^/view$', one_election_view),
+    (r'^/result_csv$', result_csv),
     (r'^/result$', one_election_result),
     (r'^/result_proof$', one_election_result_proof),
     # (r'^/bboard$', one_election_bboard),
